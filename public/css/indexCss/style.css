@@ -1,0 +1,361 @@
+@import url(https://fonts.googleapis.com/css?family=Open+Sans:700,300);
+@import url(http://weloveiconfonts.com/api/?family=fontawesome);
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed,
+figure, figcaption, footer, header, hgroup,
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font: inherit;
+    font-size: 100%;
+    vertical-align: baseline;
+}
+
+
+
+ol, ul {
+    list-style: none;
+}
+
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+
+caption, th, td {
+    text-align: left;
+    font-weight: normal;
+    vertical-align: middle;
+}
+
+q, blockquote {
+    quotes: none;
+}
+q:before, q:after, blockquote:before, blockquote:after {
+    content: "";
+    content: none;
+}
+
+a img {
+    border: none;
+}
+
+article, aside, details, figcaption, figure, footer, header, hgroup, main, menu, nav, section, summary {
+    display: block;
+}
+
+/* fontawesome */
+[class*="fa-"]:before {
+    font-family: 'FontAwesome', sans-serif;
+}
+
+
+
+h1 {
+    font-size: 2.5em;
+    margin: 2em 0 1em;
+}
+
+h2 {
+    margin-bottom: 3em;
+}
+
+em,
+strong {
+    font-weight: 700;
+}
+
+.input_folders {
+    display: none;
+}
+
+header p {
+    margin-bottom: 2em;
+}
+
+section {
+    margin-bottom: 2em;
+    padding: 0;
+}
+section:last-of-type {
+    margin-bottom: 0;
+}
+
+p {
+    line-height: 1.5em;
+}
+
+.container {
+    z-index: 1;
+    margin-bottom: 4em;
+}
+
+.pure-tree {
+    text-align: left;
+    display: block;
+}
+.pure-tree.main-tree {
+    width: 30em;
+    display: inline-block;
+}
+.pure-tree:not(.main-tree) {
+    padding-left: 1.2em;
+}
+.pure-tree:not(.main-tree) li {
+    overflow: hidden;
+    height: 0;
+    display: block;
+}
+.pure-tree label {
+    display: block;
+    cursor: pointer;
+    color: #717780;
+    border-bottom: 1px dashed #B0B9C5;
+    padding: 1.125em 1.125em 1.125em 0;
+}
+.pure-tree label:before {
+    width: 1em;
+    height: 1em;
+    line-height: 1em;
+    display: inline-block;
+    font-family: 'FontAwesome', sans-serif;
+    content: "\f114";
+    padding-right: .75em;
+}
+.pure-tree label:hover {
+    color: #434a58;
+    border-bottom-color: #434a58;
+}
+.pure-tree .pure-tree_link a {
+    padding: 1.500em 1.125em 0.750em 0;
+    display: block;
+    border-radius: .2em;
+    color: #717780;
+    text-decoration: none;
+}
+.pure-tree .pure-tree_link a:hover {
+    color: #434a58;
+}
+.pure-tree.nested {
+    padding-left: 1.7em;
+}
+.pure-tree [type="checkbox"] {
+    display: none;
+}
+.pure-tree [type="checkbox"]:checked + label {
+    color: #434a58;
+    border-bottom-color: #434a58;
+}
+.pure-tree [type="checkbox"]:checked ~ ul > li {
+    height: auto;
+}
+
+
+
+
+
+
+@import url(https://fonts.googleapis.com/css?family=Open+Sans:400);
+.frame {
+  
+  width: 400px;
+  height: 400px;
+  
+  border-radius: 2px;
+  box-shadow: 1px 2px 10px 0px rgba(0, 0, 0, 0.3);
+  background: #3A92AF;
+  background: -webkit-gradient(linear, left bottom, right top, from(#3A92AF), to(#5CA05A));
+  background: linear-gradient(to top right, #3A92AF 0%, #5CA05A 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#3A92AF', endColorstr='#5CA05A',GradientType=1 );
+  color: #fff;
+  font-family: 'Open Sans', Helvetica, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.center {
+  position: absolute;
+  width: 300px;
+  height: 260px;
+  top: 70px;
+  left: 50px;
+  background: #fff;
+  box-shadow: 8px 10px 15px 0 rgba(0, 0, 0, 0.2);
+  border-radius: 3px;
+}
+
+.title {
+  font-size: 16px;
+  color: #676767;
+  line-height: 50px;
+  height: 50px;
+  border-bottom: 1px solid #D8D8D8;
+  text-align: center;
+}
+
+.dropzone {
+  position: absolute;
+  z-index: 1;
+  box-sizing: border-box;
+  display: table;
+  table-layout: fixed;
+  width: 100px;
+  height: 80px;
+  top: 86px;
+  left: 100px;
+  border: 1px dashed #A4A4A4;
+  border-radius: 3px;
+  text-align: center;
+  overflow: hidden;
+}
+.dropzone.is-dragover {
+  border-color: #666;
+  background: #eee;
+}
+.dropzone .content {
+  display: table-cell;
+  vertical-align: middle;
+}
+.dropzone .upload {
+  margin: 6px 0 0 2px;
+}
+.dropzone .filename {
+  display: block;
+  color: #676767;
+  font-size: 14px;
+  line-height: 18px;
+}
+.dropzone .input {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  opacity: 0;
+}
+
+.upload-btn {
+  position: absolute;
+  width: 140px;
+  height: 40px;
+  left: 80px;
+  bottom: 24px;
+  background: #6ECE3B;
+  border-radius: 3px;
+  text-align: center;
+  line-height: 40px;
+  font-size: 14px;
+  box-shadow: 0 2px 0 0 #498C25;
+  cursor: pointer;
+  -webkit-transition: all .2s ease-in-out;
+  transition: all .2s ease-in-out;
+}
+.upload-btn:hover {
+  box-shadow: 0 2px 0 0 #498C25, 0 2px 10px 0 #6ECE3B;
+}
+
+.bar {
+  position: absolute;
+  z-index: 1;
+  width: 300px;
+  height: 3px;
+  top: 49px;
+  left: 0;
+  background: #6ECE3B;
+  -webkit-transition: all 3s ease-out;
+  transition: all 3s ease-out;
+  -webkit-transform: scaleX(0);
+          transform: scaleX(0);
+  -webkit-transform-origin: 0 0;
+          transform-origin: 0 0;
+}
+.bar.active {
+  -webkit-transform: scaleX(1) translate3d(0, 0, 0);
+          transform: scaleX(1) translate3d(0, 0, 0);
+}
+
+.syncing {
+  position: absolute;
+  top: 109px;
+  left: 134px;
+  opacity: 0;
+}
+.syncing.active {
+  -webkit-animation: syncing 3.2s ease-in-out;
+          animation: syncing 3.2s ease-in-out;
+}
+
+.done {
+  position: absolute;
+  top: 112px;
+  left: 132px;
+  opacity: 0;
+}
+.done.active {
+  -webkit-animation: done .5s ease-in 3.2s;
+          animation: done .5s ease-in 3.2s;
+  -webkit-animation-fill-mode: both;
+          animation-fill-mode: both;
+}
+
+@-webkit-keyframes syncing {
+  0% {
+    -webkit-transform: rotate(0deg);
+            transform: rotate(0deg);
+  }
+  10% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+            transform: rotate(360deg);
+    opacity: 0;
+  }
+}
+
+@keyframes syncing {
+  0% {
+    -webkit-transform: rotate(0deg);
+            transform: rotate(0deg);
+  }
+  10% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+            transform: rotate(360deg);
+    opacity: 0;
+  }
+}
+@-webkit-keyframes done {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes done {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
