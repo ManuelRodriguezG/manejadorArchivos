@@ -33,6 +33,66 @@ class Folder{
         }
     }
 
+    function rename($folder_name,$old_folder){
+        //var_dump(RUTA_APP);
+        //var_dump($folder_name);
+        //var_dump($old_folder);
+        //var_dump();
+        $rename_folder = rename(RUTA_APP."/modelos/uploads/".$old_folder,RUTA_APP."/modelos/uploads/".$folder_name);
+        if ($rename_folder == true) {
+            $respuesta = $this->update($folder_name,$old_folder);
+        }else{
+            $respuesta = array("error"=>"true","msg"=>"Error al renombrar la carpeta");
+        }
+        return $respuesta;
+    }
+
+    function delete($folder_name){
+        $path = RUTA_APP."/modelos/uploads/".$folder_name;
+        //var_dump($path);
+        $delete = rmdir($path);
+        //var_dump($delete);
+        if($delete == true){
+            
+            //public function delete($tabla, $campo, $valor)<br>
+            $resp = $this->db->delete("folders","name",$folder_name);
+            if($resp["estado"] == "success"){
+                $respuesta = array("error"=>"false","msg"=>"Eliminado con éxito");
+            }else{
+                $respuesta = array("error"=>"false","msg"=>"Error al eliminar");
+            }
+        }else{
+            $respuesta = array("error"=>"true","msg"=>"Error al eliminar");
+        }
+        return $respuesta;
+    }
+
+    function update($folder_name,$old_folder){
+        //public function update($tabla, $campos = array(), $valores = array(),$and = NULL)<br>
+        $respId = $this->get_id_folder($old_folder);
+        //var_dump($respId);
+        if($respId["estado"] == "success"){
+            $resp = $this->db->update("folders",array("name","id"),array($folder_name,$respId["respuesta"]["id"]));
+            //var_dump($resp);
+            if ($resp["estado"] == "Success") {
+                $respuesta = array("error"=>"false","msg"=>"Actualizado con éxito");
+            }else{
+                $respuesta = array("error"=>"true","msg"=>"Error al actualizar la carpeta");
+            }
+        }else{
+
+        }
+        
+
+        return $respuesta;
+    }
+
+    function get_id_folder($folder_name){
+        $resp = $this->db->buscarRegistro("id","folders","name",$folder_name);
+        //var_dump($resp);
+        return $resp;
+    }
+
     function exist_folder_name($folder_name){
         //var_dump($folder_name);
         //public function insert($tabla, $campos = array(), $valores = array())<br>

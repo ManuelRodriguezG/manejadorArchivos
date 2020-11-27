@@ -87,7 +87,7 @@
     $(".container_modal_body").html('<div class="accordion" id="accordionExample"><div class="card"><div class="card-header" id="headingOne"><h2 class="mb-0"><button class="btn btn-link btn-block text-left" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">Lista de Carpetas<span style="float: right;display: none;" id="option_selected">Seleccionada:<span class="folder_span">Adobe</span></span></button></h2></div><div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample"><div class="card-body"><ul class="list-group" id="list_folders"></ul></div></div></div></div><div style="position: relative;"><div class="frame"><div class="center"><div class="bar"></div><div class="title">Drop file to upload</div><div class="dropzone"><div class="content"><img src="https://100dayscss.com/codepen/upload.svg" class="upload"><span class="filename"></span><form id="form_file"><input type="file" name="file" class="input" id="input_file"></form></div></div><img src="https://100dayscss.com/codepen/syncing.svg" class="syncing"><img src="https://100dayscss.com/codepen/checkmark.svg" class="done"></div></div></div>')
 
     create_folders_list();
-    //Event click create folder
+    //Event click upload folder
     $(".upload_file").click(function(){
       var selected = false;
       var folder_name = null;
@@ -206,9 +206,9 @@
     });
   });
 
-  
 
-  print_folders_and_files();
+
+ print_folders_and_files();
 
 })
 
@@ -237,7 +237,8 @@
   
   Object.keys(data).forEach(function(folder_name){
     //console.log(folder_name + ' - ' + data[folder_name]);
-    print_folder(folder_name);
+    print_folder(folder_name,data[folder_name].length);
+    console.log(data[folder_name].length);
     Object.keys(data[folder_name]).forEach(function(i){
       print_files_to_folder(folder_name,data[folder_name][i]);
       //console.log(folder_name + ' - ' + data[folder_name][i]);
@@ -273,19 +274,213 @@ function clear_class_action_modal(){
   $("#action_modal").removeClass("upload_file");
 }
 
-function print_folder(folder_name){
+function print_folder(folder_name,length){
+  var options = "";
+  if (length == 0) {
+    options = '<span class="edit-'+folder_name+'" style="float: right;padding: 5px;">Editar</span><span class="delete-'+folder_name+'" style="float: right;padding: 5px;">Eliminar</span>';
+  }
+  
   var folderCode = '<li id="'+folder_name+'">'+
   '<input class="input_folders" type="checkbox" id="folder-'+folder_name+'">'+
-  '<label for="folder-'+folder_name+'">'+folder_name+'</label>'+
+  '<label for="folder-'+folder_name+'">'+folder_name+options+'</label>'+
+  
   '<ul class="pure-tree">  '+
   '</ul>'+
   '</li>';
   $("#compositions-list").append(folderCode);
+  
+  //edit folder
+  $(".edit-"+folder_name).click(function(){
+    console.log(this.parentNode.parentNode.id);
+    var old_folder = this.parentNode.parentNode.id;
+    clear_class_action_modal();
+    $(".container_modal_body").html('<label for="basic-url">Nombre de la Carpeta</label><div class="input-group mb-3"><input type="text" class="form-control" pattern="[A-Za-z0-9]{1,15}" id="folder_name" aria-describedby="basic-addon3"></div>');
+    $("#exampleModalLabel").html("Editar nombre");
+    $(".container_button").html('<button id="action_modal" type="button" class="btn btn-primary">Save changes</button>');
+    $("#exampleModal").modal("show");
+    $("#action_modal").html("Editar");
+    $("#action_modal").attr("old_folder",old_folder);
+    $("#action_modal").addClass("rename_folder");
+
+    //Event keypress, valid input folder name
+    jQuery('#folder_name').keypress(function (tecla) {
+      tecla = tecla.charCode;
+      console.log(tecla);
+      //Tecla de retroceso para borrar, siempre la permite
+      if (tecla == 8) {
+        return true;
+      }
+
+      // Patron de entrada, en este caso solo acepta numeros y letras
+      patron = /[A-Za-z0-9 _]/;
+      tecla_final = String.fromCharCode(tecla);
+      
+      return patron.test(tecla_final);
+    });
+
+    
+    //Event click rename folder
+    $(".rename_folder").click(function(){
+
+      var folder_name = $("#folder_name").val();
+      var old_folder = $("#action_modal").attr("old_folder");
+      console.log(old_folder);
+      if (folder_name) {
+        // Promise Show folders
+        const createFolder = new Promise((resolve, reject) => {
+
+          $.get('http://localhost/manejadorArchivos/FilesManager', `data=${JSON.stringify({
+            action: 'rename_folder',
+            folder_name,
+            old_folder
+          })}`,function(response){
+
+            response = JSON.parse(response);
+            response.error == "false" ? resolve(response.msg) : reject(response.msg);
+
+          });
+        });
+
+        createFolder
+        .then(data => 
+
+          $(".alerts").html('<div class="alert alert-success" role="alert">'+data+'</div>'),
+          setTimeout(function(){
+            $(".alerts").html("");
+            print_folders_and_files();
+            $("#exampleModal").modal("hide");
+          },2000)
+
+          
+          )
+        .catch(error => 
+          $(".alerts").html('<div class="alert alert-danger" role="alert">'+error+'</div>'),
+          setTimeout(function(){
+            $(".alerts").html("");
+          },2000)
+
+          );
+      }else{
+        $(".alerts").html('<div class="alert alert-danger" role="alert">El nombre de la carpeta está vacío</div>');
+        setTimeout(function(){
+          $(".alerts").html("");
+        },2000)
+      }
+    });
+  });
+
+  //delete folder
+  $(".delete-"+folder_name).click(function(){
+    console.log(this.parentNode.parentNode.id);
+    
+    var folder_name = this.parentNode.parentNode.id;
+
+    
+    
+
+
+    if (folder_name) {
+        // Promise Show folders
+        const deleteFolder = new Promise((resolve, reject) => {
+
+          $.get('http://localhost/manejadorArchivos/FilesManager', `data=${JSON.stringify({
+            action: 'delete_folder',
+            folder_name
+          })}`,function(response){
+
+            response = JSON.parse(response);
+            response.error == "false" ? resolve(response.msg) : reject(response.msg);
+
+          });
+        });
+
+        deleteFolder
+        .then(data => 
+
+          $(".alerts").html('<div class="alert alert-success" role="alert">'+data+'</div>'),
+          setTimeout(function(){
+            $(".alerts").html("");
+            print_folders_and_files();
+            $("#exampleModal").modal("hide");
+          },2000)
+
+          
+          )
+        .catch(error => 
+          $(".alerts").html('<div class="alert alert-danger" role="alert">'+error+'</div>'),
+          setTimeout(function(){
+            $(".alerts").html("");
+          },2000)
+
+          );
+      }else{
+        $(".alerts").html('<div class="alert alert-danger" role="alert">El nombre de la carpeta está vacío</div>');
+        setTimeout(function(){
+          $(".alerts").html("");
+        },2000)
+      }
+
+    });
+
 }
 
 function print_files_to_folder(folder_name,file_name){
-  var fileCode = '<li class="pure-tree_link"><a href="#">'+file_name+'</a></li>';
+  var fileCode = '<li class="pure-tree_link"><a href="#">'+file_name+'</a><span id="file-'+file_name+'" class="delete_file_'+folder_name+'" style="float: right;padding: 23px;cursor: pointer;">Eliminar</span></li>';
   $("#"+folder_name+" .pure-tree").append(fileCode);
+
+  //delete folder
+  $(".delete_file_"+folder_name).click(function(){
+    console.log(this.parentNode.parentNode.parentNode.id);
+    
+    var folder_name = this.parentNode.parentNode.parentNode.id;
+
+    var file_name = this.id.substring(5);
+    
+
+
+    if (folder_name) {
+        // Promise Delete file
+        const deleteFile = new Promise((resolve, reject) => {
+
+          $.get('http://localhost/manejadorArchivos/FilesManager', `data=${JSON.stringify({
+            action: 'delete_file',
+            folder_name,
+            file_name
+          })}`,function(response){
+
+            response = JSON.parse(response);
+            response.error == "false" ? resolve(response.msg) : reject(response.msg);
+
+          });
+        });
+
+        deleteFile
+        .then(data => 
+
+          $(".alerts").html('<div class="alert alert-success" role="alert">'+data+'</div>'),
+          setTimeout(function(){
+            $(".alerts").html("");
+            print_folders_and_files();
+            $("#exampleModal").modal("hide");
+          },2000)
+
+          
+          )
+        .catch(error => 
+          $(".alerts").html('<div class="alert alert-danger" role="alert">'+error+'</div>'),
+          setTimeout(function(){
+            $(".alerts").html("");
+          },2000)
+
+          );
+      }else{
+        $(".alerts").html('<div class="alert alert-danger" role="alert">El nombre de la carpeta está vacío</div>');
+        setTimeout(function(){
+          $(".alerts").html("");
+        },2000)
+      }
+
+    });
 }
 
 

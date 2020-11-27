@@ -103,6 +103,7 @@ p {
 .pure-tree {
     text-align: left;
     display: block;
+
 }
 .pure-tree.main-tree {
     width: 30em;
@@ -135,6 +136,9 @@ p {
 .pure-tree label:hover {
     color: #434a58;
     border-bottom-color: #434a58;
+}
+.pure-tree_link{
+    display: flex !important;
 }
 .pure-tree .pure-tree_link a {
     padding: 1.500em 1.125em 0.750em 0;
