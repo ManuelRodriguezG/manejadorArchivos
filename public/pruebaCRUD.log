@@ -1,0 +1,11 @@
+PDOException: SQLSTATE[HY000] [2002] No se puede establecer una conexión ya que el equipo de destino denegó expresamente dicha conexión.
+ in C:\wamp\www\manejadorArchivos\app\core\CRUD.php:21
+Stack trace:
+#0 C:\wamp\www\manejadorArchivos\app\core\CRUD.php(21): PDO->__construct('mysql:host=loca...', 'root', '', Array)
+#1 C:\wamp\www\manejadorArchivos\app\core\CRUD.php(38): MySqlDB->conectar()
+#2 C:\wamp\www\manejadorArchivos\app\modelos\ManejadorArchivos.php(6): CRUD->__construct()
+#3 C:\wamp\www\manejadorArchivos\app\core\Controlador.php(14): ManejadorArchivos->__construct()
+#4 C:\wamp\www\manejadorArchivos\app\controladores\FilesManager.php(14): Controlador->modelo('ManejadorArchiv...')
+#5 C:\wamp\www\manejadorArchivos\app\core\Core.php(72): FilesManager->index()
+#6 C:\wamp\www\manejadorArchivos\public\index.php(3): Core->__construct()
+#7 {main}

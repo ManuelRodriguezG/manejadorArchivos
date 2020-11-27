@@ -114,6 +114,10 @@
     margin:5px;
     border-radius: 5px;
 }
+.nav-item:hover{
+    background: #00000047;
+    
+}
 .line-2-toogle-menu-light{
     width: 30px;
     background: #ffffffb8;
